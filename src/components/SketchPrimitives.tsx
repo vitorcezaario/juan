@@ -69,7 +69,7 @@ export function SketchBox({
   return (
     <div
       aria-label={label}
-      className={`group relative flex flex-col bg-white transition-colors duration-150 hover:bg-[#F8D11D]/[0.07] ${className}`}
+      className={`group relative flex flex-col bg-[var(--page-surface)] transition-colors duration-150 hover:bg-[var(--page-hover-tint)] ${className}`}
     >
       {/* Moldura vetorial com traço irregular de caneta */}
       <svg
@@ -81,17 +81,17 @@ export function SketchBox({
         <path
           d={paths.secondary}
           fill="none"
-          stroke="#512003"
+          stroke="var(--page-ink-soft)"
           strokeWidth="1.05"
           strokeLinecap="round"
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"
-          opacity="0.22"
+          opacity="0.24"
         />
         <path
           d={paths.primary}
           fill="none"
-          stroke="#2A1203"
+          stroke="var(--page-ink)"
           strokeWidth="2.05"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -102,7 +102,7 @@ export function SketchBox({
         <path
           d={paths.corners}
           fill="none"
-          stroke="#2A1203"
+          stroke="var(--page-ink)"
           strokeWidth="1.35"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
@@ -112,7 +112,7 @@ export function SketchBox({
           <path
             d="M 4.4 5.2 C 33 4.3, 68 5.6, 95.6 4.8 C 96.2 33, 95.1 67, 95.7 95.1 C 69 95.8, 32 94.5, 4.5 95.3 C 3.9 68, 4.9 33, 4.4 5.2 Z"
             fill="none"
-            stroke="#512003"
+            stroke="var(--page-ink-soft)"
             strokeWidth="1.2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -133,7 +133,7 @@ export function SketchBox({
             <path
               d="M 2 9 L 9 2 M 2 14 L 14 2"
               fill="none"
-              stroke="#512003"
+              stroke="var(--page-ink-soft)"
               strokeWidth="1.35"
               strokeLinecap="round"
             />
@@ -146,7 +146,7 @@ export function SketchBox({
             <path
               d="M 16 9 L 9 16 M 16 4 L 4 16"
               fill="none"
-              stroke="#512003"
+              stroke="var(--page-ink-soft)"
               strokeWidth="1.35"
               strokeLinecap="round"
             />
@@ -160,7 +160,6 @@ export function SketchBox({
           aria-hidden="true"
           className="relative z-10 flex h-8 shrink-0 items-center justify-end px-3.5 pt-1"
         >
-          {/* Três quadradinhos/bolinhas rabiscados imitando controles de janela */}
           <svg
             viewBox="0 0 46 14"
             className="h-3.5 w-11 opacity-65"
@@ -168,26 +167,25 @@ export function SketchBox({
           >
             <path
               d="M 3 8.5 L 11 8.1"
-              stroke="#2A1203"
+              stroke="var(--page-ink)"
               strokeWidth="1.6"
               strokeLinecap="round"
             />
             <path
               d="M 18.5 3.4 L 27.2 3.1 L 26.8 10.7 L 18.2 10.4 Z"
-              stroke="#2A1203"
+              stroke="var(--page-ink)"
               strokeWidth="1.45"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
             <path
               d="M 35 3.5 L 42.5 10.8 M 42.3 3.4 L 35.2 10.6"
-              stroke="#2A1203"
+              stroke="var(--page-ink)"
               strokeWidth="1.5"
               strokeLinecap="round"
             />
           </svg>
 
-          {/* Linha divisória irregular logo abaixo da barrinha da janela */}
           <svg
             viewBox="0 0 100 6"
             preserveAspectRatio="none"
@@ -196,7 +194,7 @@ export function SketchBox({
             <path
               d="M 0.5 3.4 C 28 2.2, 61 4.3, 99.5 2.9"
               fill="none"
-              stroke="#2A1203"
+              stroke="var(--page-ink)"
               strokeWidth="1.6"
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
@@ -279,7 +277,7 @@ export function SketchDivider({
             <path
               d={paths.secondary}
               fill="none"
-              stroke="#512003"
+              stroke="var(--page-ink-soft)"
               strokeWidth="1"
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
@@ -289,7 +287,7 @@ export function SketchDivider({
           <path
             d={paths.primary}
             fill="none"
-            stroke="#2A1203"
+            stroke="var(--page-ink)"
             strokeWidth={dashed ? '1.5' : '1.9'}
             strokeLinecap="round"
             strokeDasharray={dashed ? '5 6' : undefined}
@@ -316,7 +314,7 @@ export function SketchDivider({
           <path
             d={paths.secondary}
             fill="none"
-            stroke="#512003"
+            stroke="var(--page-ink-soft)"
             strokeWidth="1"
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
@@ -326,7 +324,7 @@ export function SketchDivider({
         <path
           d={paths.primary}
           fill="none"
-          stroke="#2A1203"
+          stroke="var(--page-ink)"
           strokeWidth={dashed ? '1.45' : '1.9'}
           strokeLinecap="round"
           strokeDasharray={dashed ? '5 6' : undefined}
@@ -341,8 +339,7 @@ export function SketchDivider({
 /** Moldura externa dupla estilo página-dentro-da-página / zine Neocities */
 export function SketchPageFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="paper-sheet-grain relative mx-auto w-full max-w-[1060px] bg-white p-5 sm:p-7 lg:p-8">
-      {/* Moldura externa rabiscada com dupla linha e marcas de registro nos cantos */}
+    <div className="paper-sheet-grain relative mx-auto w-full max-w-[1060px] bg-[var(--page-surface)] p-5 sm:p-7 lg:p-8">
       <svg
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
@@ -352,7 +349,7 @@ export function SketchPageFrame({ children }: { children: ReactNode }) {
         <path
           d="M 0.5 0.9 C 32 0.3, 69 1.2, 99.5 0.6 C 99.8 33, 99.2 68, 99.6 99.4 C 68 99.8, 31 99.1, 0.6 99.5 C 0.2 67, 0.9 32, 0.5 0.9 Z"
           fill="none"
-          stroke="#2A1203"
+          stroke="var(--page-ink)"
           strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -362,7 +359,7 @@ export function SketchPageFrame({ children }: { children: ReactNode }) {
         <path
           d="M 1.4 1.6 C 34 1.1, 67 1.9, 98.7 1.4 C 99.0 34, 98.5 67, 98.8 98.6 C 67 99.0, 33 98.4, 1.4 98.7 C 1.1 66, 1.7 33, 1.4 1.6 Z"
           fill="none"
-          stroke="#512003"
+          stroke="var(--page-ink-soft)"
           strokeWidth="1.15"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -371,7 +368,6 @@ export function SketchPageFrame({ children }: { children: ReactNode }) {
         />
       </svg>
 
-      {/* Cruzinhas discretas desenhadas nos quatro cantos da folha */}
       <CornerMark className="-top-3 -left-3" />
       <CornerMark className="-top-3 -right-3" />
       <CornerMark className="-bottom-3 -left-3" />
@@ -392,10 +388,55 @@ function CornerMark({ className }: { className: string }) {
       <path
         d="M 8 2.2 L 7.8 13.8 M 2.2 8.2 L 13.8 7.8"
         fill="none"
-        stroke="#2A1203"
+        stroke="var(--page-ink)"
         strokeWidth="1.45"
         strokeLinecap="round"
       />
+    </svg>
+  );
+}
+
+export function SketchArrow({ direction }: { direction: 'left' | 'right' }) {
+  return (
+    <svg
+      viewBox="0 0 28 28"
+      aria-hidden="true"
+      className="h-6 w-6 overflow-visible"
+      fill="none"
+    >
+      {direction === 'left' ? (
+        <>
+          <path
+            d="M 21 14.3 C 16 13.9, 12 14.4, 7.2 14.1"
+            stroke="var(--page-ink)"
+            strokeWidth="2.1"
+            strokeLinecap="round"
+          />
+          <path
+            d="M 13.4 7.8 C 11.2 10.2, 9.1 12.1, 6.8 14.1 C 9.3 16.2, 11.3 18.2, 13.7 20.4"
+            stroke="var(--page-ink)"
+            strokeWidth="2.1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </>
+      ) : (
+        <>
+          <path
+            d="M 7 13.8 C 12 14.2, 16 13.7, 20.8 14"
+            stroke="var(--page-ink)"
+            strokeWidth="2.1"
+            strokeLinecap="round"
+          />
+          <path
+            d="M 14.6 7.6 C 16.8 10, 18.9 11.9, 21.2 14 C 18.7 16, 16.7 18.1, 14.3 20.3"
+            stroke="var(--page-ink)"
+            strokeWidth="2.1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </>
+      )}
     </svg>
   );
 }

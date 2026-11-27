@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sketch: "Pangolin", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
-  /* Paleta extraída diretamente da ilustração */
+  /* Paleta fixa da tela de carregamento (extraída da ilustração) */
   --sketch-yellow-light: #F9D41C;
   --sketch-yellow: #F8D11D;
   --sketch-yellow-mid: #F3C718;
@@ -14,15 +14,83 @@
   --sketch-ochre: #9B620B;
   --sketch-ink: #2A1203;
   --sketch-ink-soft: #512003;
+
+  /* Tema padrão: papel branco */
+  --page-bg: #FFFFFF;
+  --page-surface: #FFFFFF;
+  --page-ink: #2A1203;
+  --page-ink-soft: #512003;
+  --page-accent: #F8D11D;
+  --page-grain: rgba(81, 32, 3, 0.032);
+  --page-hover-tint: rgba(248, 209, 29, 0.1);
+  --page-scrim: rgba(42, 18, 3, 0.22);
+  --vinyl-fill: #2A1203;
+  --vinyl-stroke: #2A1203;
+  --vinyl-groove: #F8D11D;
+  --vinyl-label: #F8D11D;
+  --vinyl-label-ink: #512003;
+  --vinyl-hole: #FFFFFF;
+}
+
+:root[data-theme='amarelo'] {
+  --page-bg: #F8D11D;
+  --page-surface: #F9D731;
+  --page-ink: #2A1203;
+  --page-ink-soft: #512003;
+  --page-accent: #FFFFFF;
+  --page-grain: rgba(81, 32, 3, 0.05);
+  --page-hover-tint: rgba(42, 18, 3, 0.06);
+  --page-scrim: rgba(42, 18, 3, 0.28);
+  --vinyl-fill: #2A1203;
+  --vinyl-stroke: #2A1203;
+  --vinyl-groove: #F8D11D;
+  --vinyl-label: #FFF7CC;
+  --vinyl-label-ink: #512003;
+  --vinyl-hole: #F8D11D;
+}
+
+:root[data-theme='creme'] {
+  --page-bg: #F3ECE0;
+  --page-surface: #F8F3EA;
+  --page-ink: #2A180D;
+  --page-ink-soft: #5C3D26;
+  --page-accent: #E8BA24;
+  --page-grain: rgba(81, 32, 3, 0.045);
+  --page-hover-tint: rgba(232, 186, 36, 0.14);
+  --page-scrim: rgba(42, 24, 13, 0.24);
+  --vinyl-fill: #2A180D;
+  --vinyl-stroke: #2A180D;
+  --vinyl-groove: #F3ECE0;
+  --vinyl-label: #E8BA24;
+  --vinyl-label-ink: #2A180D;
+  --vinyl-hole: #F8F3EA;
+}
+
+:root[data-theme='escuro'] {
+  --page-bg: #171412;
+  --page-surface: #1F1B18;
+  --page-ink: #F4EFE6;
+  --page-ink-soft: #C7B9A5;
+  --page-accent: #F8D11D;
+  --page-grain: rgba(244, 239, 230, 0.04);
+  --page-hover-tint: rgba(248, 209, 29, 0.1);
+  --page-scrim: rgba(0, 0, 0, 0.62);
+  --vinyl-fill: #0B0908;
+  --vinyl-stroke: #F4EFE6;
+  --vinyl-groove: #F4EFE6;
+  --vinyl-label: #F8D11D;
+  --vinyl-label-ink: #2A1203;
+  --vinyl-hole: #1F1B18;
 }
 
 html,
 body {
-  font-family: var(--font-sans);
-  background-color: #ffffff;
-  color: var(--sketch-ink);
+  font-family: var(--font-sketch);
+  background-color: var(--page-bg);
+  color: var(--page-ink);
   margin: 0;
   padding: 0;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 .loading-canvas {
@@ -42,7 +110,7 @@ body {
 }
 
 .paper-sheet-grain {
-  background-image: radial-gradient(rgba(81, 32, 3, 0.032) 0.75px, transparent 0.75px);
+  background-image: radial-gradient(var(--page-grain) 0.75px, transparent 0.75px);
   background-size: 20px 20px;
 }
 
