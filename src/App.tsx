@@ -96,6 +96,9 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* Ruído analógico fino estilo xerox / animação 16mm */}
+      <div aria-hidden="true" className="site-noise-overlay" />
+
       {/* Menu discreto no canto superior direito para escolher a cor/tinta do site */}
       {!isLoading && <ThemeMenu theme={theme} onChange={setTheme} />}
 

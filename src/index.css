@@ -29,6 +29,8 @@
   --page-vignette: rgba(17, 14, 12, 0.11);
   --page-hover-tint: rgba(220, 30, 88, 0.06);
   --page-scrim: rgba(14, 12, 12, 0.44);
+  --noise-opacity: 0.14;
+  --noise-blend: multiply;
 }
 
 :root[data-theme='bic'] {
@@ -97,6 +99,8 @@
   --page-vignette: rgba(0, 0, 0, 0.45);
   --page-hover-tint: rgba(244, 40, 106, 0.1);
   --page-scrim: rgba(0, 0, 0, 0.72);
+  --noise-opacity: 0.12;
+  --noise-blend: screen;
 }
 
 html,
@@ -243,8 +247,41 @@ body {
   will-change: transform;
 }
 
+/* Ruído analógico fino estilo xerox / filme 16mm sobre toda a página */
+@keyframes analog-grain-shift {
+  0% {
+    background-position: 0px 0px;
+  }
+  25% {
+    background-position: -24px 18px;
+  }
+  50% {
+    background-position: 19px -27px;
+  }
+  75% {
+    background-position: -14px -12px;
+  }
+  100% {
+    background-position: 0px 0px;
+  }
+}
+
+.site-noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.85'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  animation: analog-grain-shift 0.48s steps(1, end) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sketch-portrait-wiggle,
+  .site-noise-overlay,
   .sketch-boil-hover:hover .sketch-boil-target,
   .sketch-boil-hover:focus-visible .sketch-boil-target {
     animation: none;
