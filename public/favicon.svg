@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Contorno escuro -->
+  <path fill="#23140A" d="
+    M3 2h3v1H3z M10 2h3v1h-3z
+    M2 3h1v3H2z M6 3h1v1H6z M9 3h1v1H9z M13 3h1v3h-1z
+    M6 4h4v1H6z
+    M1 6h1v2H1z M14 6h1v2h-1z
+    M0 8h1v3H0z M15 8h1v3h-1z
+    M1 11h1v1H1z M14 11h1v1h-1z
+    M2 12h2v1H2z M12 12h2v1h-2z
+    M4 13h8v1H4z
+  "/>
+
+  <!-- Verde principal do corpo -->
+  <path fill="#5CB849" d="
+    M3 5h1v1H3z M6 5h4v1H6z M12 5h1v1h-1z
+    M2 6h12v2H2z
+    M1 8h14v2H1z
+    M2 10h12v1H2z
+  "/>
+
+  <!-- Destaques claros -->
+  <path fill="#87D962" d="
+    M3 3h1v1H3z M12 3h1v1h-1z
+    M3 6h2v1H3z M11 6h2v1h-2z
+  "/>
+
+  <!-- Sombra verde lateral -->
+  <path fill="#3E8E35" d="
+    M1 10h1v1H1z M14 10h1v1h-1z
+    M2 11h2v1H2z M12 11h2v1h-2z
+  "/>
+
+  <!-- Branco dos olhos -->
+  <path fill="#FFFFFF" d="
+    M4 3h2v3H4z M10 3h2v3h-2z
+    M3 4h1v1H3z M12 4h1v1h-1z
+  "/>
+
+  <!-- Pupilas -->
+  <path fill="#23140A" d="M4 4h1v1H4z M11 4h1v1h-1z"/>
+
+  <!-- Bochechas rosadas -->
+  <path fill="#F4938C" d="M3 8h1v1H3z M12 8h1v1h-1z"/>
+
+  <!-- Sorriso -->
+  <path fill="#23140A" d="M4 9h1v1H4z M11 9h1v1h-1z M5 10h6v1H5z"/>
+
+  <!-- Barriguinha/queixo amarelo claro -->
+  <path fill="#F5E17A" d="M4 11h8v2H4z"/>
+</svg>
