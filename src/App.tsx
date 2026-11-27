@@ -7,7 +7,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { RotateCcw } from 'lucide-react';
 import { LoadingScreen } from './components/LoadingScreen';
-import { PaperTextureFilter } from './components/PaperTextureFilter';
 import { SiteNav, type PageRoute } from './components/SiteNav';
 import { ThemeMenu, type SiteTheme } from './components/ThemeMenu';
 import { ArtesPage } from './pages/ArtesPage';
@@ -88,9 +87,6 @@ export default function App() {
 
   return (
     <div className="relative min-h-dvh w-full overflow-x-hidden bg-[var(--page-bg)] text-[var(--page-ink)] transition-colors duration-200">
-      {/* Filtros SVG de textura física de papel amassado e dobra para .paper-sheet-grain */}
-      <PaperTextureFilter />
-
       <AnimatePresence mode="wait">
         {isLoading && (
           <LoadingScreen

@@ -29,11 +29,6 @@
   --page-vignette: rgba(17, 14, 12, 0.11);
   --page-hover-tint: rgba(220, 30, 88, 0.06);
   --page-scrim: rgba(14, 12, 12, 0.44);
-  --paper-texture-filter: url(#zine-crumpled-paper);
-  --paper-texture-opacity: 0.28;
-  --paper-texture-blend: multiply;
-  --paper-fold-shadow: rgba(17, 14, 12, 0.065);
-  --paper-fold-highlight: rgba(255, 255, 255, 0.42);
 }
 
 :root[data-theme='bic'] {
@@ -102,10 +97,6 @@
   --page-vignette: rgba(0, 0, 0, 0.45);
   --page-hover-tint: rgba(244, 40, 106, 0.1);
   --page-scrim: rgba(0, 0, 0, 0.72);
-  --paper-texture-opacity: 0.2;
-  --paper-texture-blend: soft-light;
-  --paper-fold-shadow: rgba(0, 0, 0, 0.28);
-  --paper-fold-highlight: rgba(241, 236, 226, 0.08);
 }
 
 html,
@@ -134,62 +125,14 @@ body {
   background-size: 16px 16px;
 }
 
-/* Textura orgânica de papel de caderno + fotocópia/zine + vinheta + filtro SVG de papel amassado e dobra */
+/* Textura orgânica de papel de caderno + fotocópia/zine + vinheta sutil de borda */
 .paper-sheet-grain {
-  position: relative;
-  isolation: isolate;
   background-image:
     radial-gradient(circle at 50% 46%, transparent 56%, var(--page-vignette) 100%),
     radial-gradient(var(--page-grain) 0.9px, transparent 0.9px),
     radial-gradient(var(--page-grain) 0.65px, transparent 0.65px);
   background-size: 100% 100%, 19px 19px, 11px 11px;
   background-position: 0 0, 0 0, 5px 7px;
-}
-
-.paper-sheet-grain::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background-color: #808080;
-  filter: var(--paper-texture-filter);
-  opacity: var(--paper-texture-opacity);
-  mix-blend-mode: var(--paper-texture-blend);
-}
-
-/* Vincos sutis de dobra física de zine (dobra vertical central + marca diagonal leve) */
-.paper-sheet-grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background-image:
-    linear-gradient(
-      90deg,
-      transparent 49.4%,
-      var(--paper-fold-shadow) 49.95%,
-      var(--paper-fold-highlight) 50.2%,
-      transparent 50.8%
-    ),
-    linear-gradient(
-      176deg,
-      transparent 48.8%,
-      var(--paper-fold-shadow) 49.6%,
-      var(--paper-fold-highlight) 50.05%,
-      transparent 50.9%
-    );
-  opacity: 0.72;
-}
-
-.paper-sheet-grain[data-paper-texture='dobra'] {
-  --paper-texture-filter: url(#zine-fold-crease);
-}
-
-.paper-sheet-grain[data-paper-texture='liso']::before,
-.paper-sheet-grain[data-paper-texture='liso']::after {
-  opacity: 0;
 }
 
 /* Textura de hachura cruzada em tinta para sombras deslocadas e fundos de moldura */
