@@ -142,6 +142,8 @@ export async function fetchLatestLastFmTrack(): Promise<{
   const apiKey = readEnvValue([
     'LASTFM_API_KEY',
     'LAST_FM_API_KEY',
+    'LAST_FM_API',
+    'LASTFM_API',
     'LASTFM_KEY',
   ]);
   const rawUsername = readEnvValue([
