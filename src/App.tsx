@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { RotateCcw } from 'lucide-react';
 import { LoadingScreen } from './components/LoadingScreen';
+import { NeocitiesSketchLayout } from './components/NeocitiesSketchLayout';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,8 +33,10 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Área em branco pronta para personalização */}
-      <main className="min-h-screen w-full bg-white" />
+      {/* Esboço estrutural estilo Neocities (sem textos, pronto para receber imagens) */}
+      <main className="min-h-screen w-full bg-white">
+        <NeocitiesSketchLayout />
+      </main>
 
       {/* Controle discreto para rever a tela de carregamento */}
       {!isLoading && (

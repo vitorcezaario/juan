@@ -41,6 +41,21 @@ body {
   background-size: 16px 16px;
 }
 
+.paper-sheet-grain {
+  background-image: radial-gradient(rgba(81, 32, 3, 0.032) 0.75px, transparent 0.75px);
+  background-size: 20px 20px;
+}
+
+/* Margem externa sutil de folha/mesa estilo Neocities emoldurado */
+.neocities-outer-paper {
+  background-color: #fbfaf7;
+  background-image:
+    radial-gradient(rgba(81, 32, 3, 0.075) 0.85px, transparent 0.85px),
+    linear-gradient(to right, rgba(81, 32, 3, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(81, 32, 3, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px, 48px 48px, 48px 48px;
+}
+
 /* Extrai o traço de tinta removendo o fundo da foto e dissolve suavemente as bordas inferiores e laterais */
 .sketch-ink-cutout {
   filter: url(#sketch-ink-extract);
