@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
+import { SketchFrogLoader } from './SketchFrogLoader';
 
 const LOADING_IMAGE_SRC =
   '/assets/aistudio/WhatsApp_Image_2026-11-27_at_09.31.24_b6d648c1.jpeg';
@@ -11,7 +12,7 @@ interface LoadingScreenProps {
 
 export function LoadingScreen({
   onComplete,
-  durationMs = 2800,
+  durationMs = 3000,
 }: LoadingScreenProps) {
   const prefersReducedMotion = useReducedMotion();
   const [progress, setProgress] = useState(0);
@@ -36,13 +37,11 @@ export function LoadingScreen({
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const linear = Math.min(elapsed / effectiveDuration, 1);
-      // Curva suave com leve desaceleração orgânica no final
-      const eased = 1 - Math.pow(1 - linear, 2.6);
-      const nextValue = Math.round(eased * 100);
+      const nextValue = Math.min(100, linear * 100);
 
       // Aguarda a imagem ficar pronta antes de cravar 100%
       if (linear >= 1 && !imageReady) {
-        setProgress(98);
+        setProgress(95);
         frameId = requestAnimationFrame(tick);
         return;
       }
@@ -54,7 +53,7 @@ export function LoadingScreen({
       } else {
         completionTimer = window.setTimeout(() => {
           onComplete();
-        }, prefersReducedMotion ? 120 : 280);
+        }, prefersReducedMotion ? 120 : 380);
       }
     };
 
@@ -70,7 +69,7 @@ export function LoadingScreen({
     <motion.div
       role="status"
       aria-live="polite"
-      aria-label={`Carregando página, ${progress}%`}
+      aria-label={`Carregando página, ${Math.round(progress)}%`}
       initial={{ opacity: 1, y: 0 }}
       exit={
         prefersReducedMotion
@@ -78,8 +77,8 @@ export function LoadingScreen({
           : {
               y: '-100%',
               transition: {
-                duration: 0.72,
-                ease: [0.16, 1, 0.3, 1],
+                duration: 0.55,
+                ease: [0.22, 1, 0.36, 1],
               },
             }
       }
@@ -91,38 +90,11 @@ export function LoadingScreen({
         className="loading-paper-grain pointer-events-none absolute inset-0 opacity-70"
       />
 
-      <motion.div
-        initial={
-          prefersReducedMotion
-            ? { opacity: 1 }
-            : { opacity: 0, y: 14, scale: 0.985 }
-        }
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 flex w-full max-w-[360px] flex-col items-center sm:max-w-[400px]"
-      >
-        {/* Ilustração central com proporção travada para alinhar o piscar dos olhos */}
+      <div className="relative z-10 flex w-full max-w-[360px] flex-col items-center sm:max-w-[400px]">
+        {/* Ilustração central com proporção travada e leve tremidinha de flipbook */}
         <div className="relative flex w-full items-end justify-center">
           {!imageError ? (
-            <motion.div
-              animate={
-                prefersReducedMotion
-                  ? undefined
-                  : {
-                      y: [0, -4, 0],
-                    }
-              }
-              transition={
-                prefersReducedMotion
-                  ? undefined
-                  : {
-                      duration: 3.4,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }
-              }
-              className="relative aspect-[1229/1600] w-[min(78vw,354px,calc(56vh*1229/1600))]"
-            >
+            <div className="sketch-portrait-wiggle relative aspect-[1229/1600] w-[min(76vw,340px,calc(52vh*1229/1600))]">
               <img
                 src={LOADING_IMAGE_SRC}
                 alt="Ilustração do personagem"
@@ -210,7 +182,7 @@ export function LoadingScreen({
                   />
                 </g>
               </svg>
-            </motion.div>
+            </div>
           ) : (
             <div className="flex h-64 w-52 items-center justify-center border border-[#512003]/25 bg-[#F3C718]/60 text-sm font-medium text-[#2A1203]">
               Ilustração indisponível
@@ -218,21 +190,9 @@ export function LoadingScreen({
           )}
         </div>
 
-        {/* Linha de base em tinta escura que atua como barra de progresso */}
-        <div className="w-full max-w-[260px] sm:max-w-[290px]">
-          <div
-            aria-hidden="true"
-            className="relative h-[2px] w-full overflow-hidden bg-[#512003]/20"
-          >
-            <motion.div
-              className="h-full w-full origin-left bg-[#2A1203]"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: progress / 100 }}
-              transition={{ duration: 0.12, ease: 'linear' }}
-            />
-          </div>
-        </div>
-      </motion.div>
+        {/* Sapinho ilustrado saltando no lugar da barra de progresso */}
+        <SketchFrogLoader progress={progress} />
+      </div>
     </motion.div>
   );
 }
