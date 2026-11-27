@@ -4,6 +4,7 @@ import {
   SketchArrow,
   SketchBox,
   SketchDivider,
+  SketchScribbleDot,
   type SketchVariant,
 } from '../components/SketchPrimitives';
 import { LastFmNowPlaying } from '../components/LastFmNowPlaying';
@@ -102,22 +103,24 @@ export function RecomendacoesPage() {
       aria-label="Mural de LPs recomendados"
       className="flex w-full flex-col items-center gap-3.5 sm:gap-4"
     >
-      {/* Linha principal: seta esquerda + capa do LP com vinil saindo + seta direita */}
+      {/* Linha principal: seta esquerda + capa do LP com vinil real saindo + seta direita */}
       <div className="flex w-full items-center justify-center gap-4 sm:gap-8">
         <button
           type="button"
           onClick={goPrev}
           aria-label="Disco anterior"
-          className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:-translate-x-0.5 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
+          className="sketch-boil-hover hidden h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:-translate-x-1 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
         >
-          <SketchArrow direction="left" />
+          <span className="sketch-boil-target">
+            <SketchArrow direction="left" />
+          </span>
         </button>
 
         {/* Área do LP clicável */}
         <div
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          className="flex w-full max-w-[600px] items-center justify-center pr-8 sm:pr-16"
+          className="flex w-full max-w-[540px] items-center justify-center pr-8 pb-2 sm:pr-14"
         >
           <AnimatePresence mode="wait" initial={false} custom={direction}>
             <motion.button
@@ -129,33 +132,42 @@ export function RecomendacoesPage() {
               initial={
                 prefersReducedMotion
                   ? { opacity: 0 }
-                  : { opacity: 0, x: direction * 28 }
+                  : { opacity: 0, x: direction * 28, rotate: direction * 0.8 }
               }
-              animate={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0, rotate: 0 }}
               exit={
                 prefersReducedMotion
                   ? { opacity: 0 }
-                  : { opacity: 0, x: direction * -28 }
+                  : { opacity: 0, x: direction * -28, rotate: direction * -0.8 }
               }
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative aspect-square w-full max-w-[320px] max-h-[41dvh] cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--page-ink)] sm:max-w-[360px] sm:max-h-[44dvh]"
+              className="group relative aspect-square w-full max-w-[310px] max-h-[40dvh] cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--page-ink)] sm:max-w-[350px] sm:max-h-[43dvh]"
             >
               {/* Disco de vinil real espiando pela lateral direita da capa */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute top-1/2 right-0 z-0 h-[88%] w-[88%] translate-x-[22%] -translate-y-1/2 transition-transform duration-300 ease-out group-hover:translate-x-[30%] group-hover:rotate-[12deg] motion-reduce:transition-none motion-reduce:group-hover:rotate-0 sm:translate-x-[26%] sm:group-hover:translate-x-[35%]"
+                className="pointer-events-none absolute top-1/2 right-0 z-0 h-[88%] w-[88%] translate-x-[22%] -translate-y-1/2 transition-transform duration-300 ease-out group-hover:translate-x-[31%] group-hover:rotate-[14deg] motion-reduce:transition-none motion-reduce:group-hover:rotate-0 sm:translate-x-[26%] sm:group-hover:translate-x-[36%]"
               >
                 <RealVinylDisc />
               </div>
 
-              {/* Capa quadrada do LP na frente */}
+              {/* Capa quadrada do LP na frente com hachura e vinco de lombada */}
               <div className="relative z-10 h-full w-full">
                 <SketchBox
                   variant={activeLp.variant}
                   doubleFrame
+                  photoCorners
+                  crosshatchShadow
+                  bleedHover
                   className="h-full w-full"
-                  contentClassName="relative flex h-full w-full items-center justify-center overflow-hidden p-5 sm:p-6"
+                  contentClassName="relative flex h-full w-full items-center justify-center overflow-hidden p-4 sm:p-5"
                 >
+                  {/* Vinco sutil da lombada de capa de LP */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute top-2 bottom-2 left-3 z-20 w-[1.5px] bg-[var(--page-ink)]/18"
+                  />
+
                   {activeLp.coverSrc ? (
                     <img
                       src={activeLp.coverSrc}
@@ -166,7 +178,7 @@ export function RecomendacoesPage() {
                     />
                   ) : (
                     /* Capa em branco pronta para receber a arte do álbum */
-                    <div className="h-full w-full" />
+                    <div className="h-full w-full bg-[var(--page-surface-inner)]/55" />
                   )}
                 </SketchBox>
               </div>
@@ -178,9 +190,11 @@ export function RecomendacoesPage() {
           type="button"
           onClick={goNext}
           aria-label="Próximo disco"
-          className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:translate-x-0.5 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
+          className="sketch-boil-hover hidden h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:translate-x-1 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
         >
-          <SketchArrow direction="right" />
+          <span className="sketch-boil-target">
+            <SketchArrow direction="right" />
+          </span>
         </button>
       </div>
 
@@ -193,19 +207,19 @@ export function RecomendacoesPage() {
         <svg
           viewBox="0 0 26 24"
           aria-hidden="true"
-          className="h-5 w-5 shrink-0 transition-transform duration-150 group-hover/hint:-translate-y-0.5"
+          className="h-5 w-5 shrink-0 transition-transform duration-150 group-hover/hint:-translate-y-0.5 group-hover/hint:text-[var(--page-accent)]"
           fill="none"
         >
           <path
             d="M 4 19.5 C 5.5 11.5, 11 7, 19.5 6.2"
             stroke="currentColor"
-            strokeWidth="1.75"
+            strokeWidth="2"
             strokeLinecap="round"
           />
           <path
             d="M 14.5 3.4 C 16.5 4.8, 18.2 5.6, 20.2 6.2 C 18.4 7.7, 17.2 9.2, 16.2 11.2"
             stroke="currentColor"
-            strokeWidth="1.75"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -214,12 +228,12 @@ export function RecomendacoesPage() {
           clique no disco para saber mais
           <span
             aria-hidden="true"
-            className="block h-[2px] w-full origin-left scale-x-0 bg-[var(--page-accent)] transition-transform duration-150 group-hover/hint:scale-x-100"
+            className="block h-[2.5px] w-full origin-left scale-x-0 bg-[var(--page-accent)] transition-transform duration-150 group-hover/hint:scale-x-100"
           />
         </span>
       </button>
 
-      {/* Controles inferiores: bolinhas desenhadas à mão (+ setas no mobile) */}
+      {/* Controles inferiores: bolinhas rabiscadas à mão (+ setas no mobile) */}
       <div className="flex items-center justify-center gap-4">
         <button
           type="button"
@@ -245,23 +259,9 @@ export function RecomendacoesPage() {
                 aria-selected={isActive}
                 aria-label={`Ir para disco ${index + 1}`}
                 onClick={() => goTo(index)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-150 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
+                className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-transform duration-150 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
               >
-                <svg
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                  className="h-4 w-4 overflow-visible"
-                >
-                  <path
-                    d="M 10.2 3.1 C 14.3 2.8, 17.2 6.1, 16.9 10.2 C 16.6 14.2, 13.7 17.1, 9.8 16.9 C 5.6 16.7, 2.9 13.8, 3.1 9.7 C 3.3 5.8, 6.2 3.4, 10.2 3.1 Z"
-                    fill={isActive ? 'var(--page-accent)' : 'transparent'}
-                    stroke="var(--page-ink)"
-                    strokeWidth={isActive ? '2.1' : '1.6'}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity={isActive ? '1' : '0.45'}
-                  />
-                </svg>
+                <SketchScribbleDot active={isActive} />
               </button>
             );
           })}
@@ -298,9 +298,9 @@ export function RecomendacoesPage() {
               initial={
                 prefersReducedMotion
                   ? { opacity: 0 }
-                  : { opacity: 0, y: 12, scale: 0.98 }
+                  : { opacity: 0, y: 12, scale: 0.97, rotate: -0.4 }
               }
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
               exit={
                 prefersReducedMotion
                   ? { opacity: 0 }
@@ -308,11 +308,13 @@ export function RecomendacoesPage() {
               }
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               onClick={(event) => event.stopPropagation()}
-              className="w-full max-w-[720px]"
+              className="w-full max-w-[720px] pr-2 pb-2"
             >
               <SketchBox
                 variant={selectedLp.variant}
                 doubleFrame
+                cornerTicks
+                crosshatchShadow
                 className="paper-sheet-grain w-full"
                 contentClassName="relative p-6 sm:p-9"
               >
@@ -321,19 +323,26 @@ export function RecomendacoesPage() {
                   type="button"
                   onClick={() => setSelectedLp(null)}
                   aria-label="Fechar detalhes do disco"
-                  className="absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--page-ink)] transition-colors duration-150 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
+                  className="group/close absolute top-4 right-4 inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-[var(--page-ink)] transition-colors duration-150 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
                 >
                   <svg
                     viewBox="0 0 24 24"
                     aria-hidden="true"
-                    className="h-5 w-5"
+                    className="h-5 w-5 transition-transform duration-150 group-hover/close:rotate-6"
                     fill="none"
                   >
                     <path
-                      d="M 6 6.4 L 18 17.8 M 17.6 6.2 L 6.2 18"
-                      stroke="var(--page-ink)"
-                      strokeWidth="2.1"
+                      d="M 5.5 6.2 L 18.5 18 M 18 5.8 L 5.8 18.2"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
                       strokeLinecap="round"
+                    />
+                    <path
+                      d="M 6.5 5.4 L 17.6 18.6"
+                      stroke="var(--page-accent)"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      opacity="0.65"
                     />
                   </svg>
                 </button>
@@ -351,6 +360,8 @@ export function RecomendacoesPage() {
                     <div className="relative z-10 h-full w-full">
                       <SketchBox
                         variant={selectedLp.variant}
+                        crosshatchShadow={false}
+                        photoCorners
                         className="h-full w-full"
                         contentClassName="flex h-full w-full items-center justify-center p-3"
                       >
@@ -363,7 +374,7 @@ export function RecomendacoesPage() {
                             draggable={false}
                           />
                         ) : (
-                          <div className="h-full w-full" />
+                          <div className="h-full w-full bg-[var(--page-surface-inner)]/55" />
                         )}
                       </SketchBox>
                     </div>
@@ -416,6 +427,7 @@ export function RecomendacoesPage() {
                     <div className="pt-2">
                       <SketchBox
                         variant="d"
+                        crosshatchShadow
                         label="Espaço reservado para link da música"
                         className="h-11 w-40"
                         contentClassName="p-2"
@@ -435,7 +447,7 @@ export function RecomendacoesPage() {
 /** Disco de vinil LP real recortado em círculo perfeito */
 function RealVinylDisc() {
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-full bg-[#0e0d0c] shadow-[0_10px_24px_rgba(0,0,0,0.28)] ring-1 ring-white/15">
+    <div className="relative h-full w-full overflow-hidden rounded-full bg-[#0e0d0c] shadow-[0_12px_26px_rgba(0,0,0,0.34)] ring-1 ring-white/15">
       <img
         src={realVinylRecordImg}
         alt=""
@@ -454,16 +466,16 @@ function SketchStars({ count = 5 }: { count?: number }) {
         <svg
           key={index}
           viewBox="0 0 20 20"
-          className="h-4 w-4 overflow-visible"
+          className="h-4.5 w-4.5 overflow-visible"
           fill="none"
         >
           <path
             d="M 10.1 2.2 L 12.2 7.2 L 17.6 7.7 L 13.4 11.2 L 14.7 16.5 L 10 13.6 L 5.3 16.4 L 6.6 11.1 L 2.5 7.5 L 7.8 7.1 Z"
             stroke="var(--page-ink)"
-            strokeWidth="1.55"
+            strokeWidth="1.75"
             strokeLinecap="round"
             strokeLinejoin="round"
-            opacity="0.58"
+            opacity="0.65"
           />
         </svg>
       ))}

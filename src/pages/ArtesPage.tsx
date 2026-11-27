@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import {
   SketchArrow,
   SketchBox,
+  SketchScribbleDot,
   type SketchVariant,
 } from '../components/SketchPrimitives';
 
@@ -84,30 +85,36 @@ export function ArtesPage() {
   return (
     <section
       aria-label="Mural de artes"
-      className="flex w-full flex-col items-center gap-6"
+      className="flex w-full flex-col items-center gap-5"
     >
-      {/* Linha principal: seta esquerda + mural central + seta direita */}
-      <div className="flex w-full items-center justify-center gap-4 sm:gap-7">
+      {/* Linha principal: seta esquerda + mural central com hachura + seta direita */}
+      <div className="flex w-full items-center justify-center gap-4 sm:gap-8">
         <button
           type="button"
           onClick={goPrev}
           aria-label="Arte anterior"
-          className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:-translate-x-0.5 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
+          className="sketch-boil-hover hidden h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:-translate-x-1 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
         >
-          <SketchArrow direction="left" />
+          <span className="sketch-boil-target">
+            <SketchArrow direction="left" />
+          </span>
         </button>
 
-        {/* Mural grande centralizado */}
+        {/* Mural grande centralizado emoldurado como página de sketchbook/zine */}
         <div
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          className="w-full max-w-[580px]"
+          className="w-full max-w-[540px] pr-2 pb-2"
         >
           <SketchBox
             variant={activeSlot.variant}
             doubleFrame
+            cornerTicks
+            photoCorners
+            crosshatchShadow
+            bleedHover
             label={`Mural de artes, quadro ${currentIndex + 1} de ${total}`}
-            className="aspect-square w-full max-h-[64vh]"
+            className="aspect-square w-full max-h-[60dvh]"
             contentClassName="relative h-full w-full overflow-hidden p-5 sm:p-7"
           >
             <AnimatePresence mode="wait" initial={false} custom={direction}>
@@ -117,16 +124,16 @@ export function ArtesPage() {
                 initial={
                   prefersReducedMotion
                     ? { opacity: 0 }
-                    : { opacity: 0, x: direction * 24 }
+                    : { opacity: 0, x: direction * 24, rotate: direction * 0.6 }
                 }
-                animate={{ opacity: 1, x: 0 }}
+                animate={{ opacity: 1, x: 0, rotate: 0 }}
                 exit={
                   prefersReducedMotion
                     ? { opacity: 0 }
-                    : { opacity: 0, x: direction * -24 }
+                    : { opacity: 0, x: direction * -24, rotate: direction * -0.6 }
                 }
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className="flex h-full w-full items-center justify-center"
+                className="flex h-full w-full items-center justify-center bg-[var(--page-surface-inner)]/55"
               >
                 {activeSlot.imageSrc ? (
                   <img
@@ -148,13 +155,15 @@ export function ArtesPage() {
           type="button"
           onClick={goNext}
           aria-label="Próxima arte"
-          className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:translate-x-0.5 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
+          className="sketch-boil-hover hidden h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--page-ink)] transition-transform duration-150 hover:translate-x-1 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)] sm:inline-flex"
         >
-          <SketchArrow direction="right" />
+          <span className="sketch-boil-target">
+            <SketchArrow direction="right" />
+          </span>
         </button>
       </div>
 
-      {/* Controles inferiores: bolinhas desenhadas à mão (+ setas no mobile) */}
+      {/* Controles inferiores: bolinhas rabiscadas à mão (+ setas no mobile) */}
       <div className="flex items-center justify-center gap-4">
         <button
           type="button"
@@ -180,23 +189,9 @@ export function ArtesPage() {
                 aria-selected={isActive}
                 aria-label={`Ir para arte ${index + 1}`}
                 onClick={() => goTo(index)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-150 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
+                className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-transform duration-150 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
               >
-                <svg
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                  className="h-4 w-4 overflow-visible"
-                >
-                  <path
-                    d="M 10.2 3.1 C 14.3 2.8, 17.2 6.1, 16.9 10.2 C 16.6 14.2, 13.7 17.1, 9.8 16.9 C 5.6 16.7, 2.9 13.8, 3.1 9.7 C 3.3 5.8, 6.2 3.4, 10.2 3.1 Z"
-                    fill={isActive ? 'var(--page-accent)' : 'transparent'}
-                    stroke="var(--page-ink)"
-                    strokeWidth={isActive ? '2.1' : '1.6'}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity={isActive ? '1' : '0.45'}
-                  />
-                </svg>
+                <SketchScribbleDot active={isActive} />
               </button>
             );
           })}

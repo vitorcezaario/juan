@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sketch: "Pangolin", ui-sans-serif, system-ui, sans-serif;
+  --font-sketch: "Gloria Hallelujah", "Pangolin", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  /* Paleta fixa da tela de carregamento (extraída da ilustração) */
+  /* Paleta fixa da tela de carregamento (extraída da ilustração amarela) */
   --sketch-yellow-light: #F9D41C;
   --sketch-yellow: #F8D11D;
   --sketch-yellow-mid: #F3C718;
@@ -15,72 +15,97 @@
   --sketch-ink: #2A1203;
   --sketch-ink-soft: #512003;
 
-  /* Tema padrão: papel branco */
-  --page-bg: #FFFFFF;
-  --page-surface: #FFFFFF;
-  --page-ink: #2A1203;
-  --page-ink-soft: #512003;
-  --page-accent: #F8D11D;
-  --page-grain: rgba(81, 32, 3, 0.032);
-  --page-hover-tint: rgba(248, 209, 29, 0.1);
-  --page-scrim: rgba(42, 18, 3, 0.22);
-  --vinyl-fill: #2A1203;
-  --vinyl-stroke: #2A1203;
-  --vinyl-groove: #F8D11D;
-  --vinyl-label: #F8D11D;
-  --vinyl-label-ink: #512003;
-  --vinyl-hole: #FFFFFF;
+  /* Tema padrão: papel xerox / caderno bruto + nanquim preto + sangramento carmesim */
+  --page-bg: #F4F1EA;
+  --page-surface: #FAF8F3;
+  --page-surface-inner: #EEEAE0;
+  --page-ink: #111010;
+  --page-ink-soft: #3B3633;
+  --page-accent: #DC1E58;
+  --page-accent-soft: rgba(220, 30, 88, 0.16);
+  --page-wash: rgba(88, 174, 212, 0.1);
+  --page-grain: rgba(17, 16, 16, 0.055);
+  --page-hatch: rgba(17, 16, 16, 0.34);
+  --page-vignette: rgba(17, 14, 12, 0.11);
+  --page-hover-tint: rgba(220, 30, 88, 0.06);
+  --page-scrim: rgba(14, 12, 12, 0.44);
+  --paper-texture-filter: url(#zine-crumpled-paper);
+  --paper-texture-opacity: 0.28;
+  --paper-texture-blend: multiply;
+  --paper-fold-shadow: rgba(17, 14, 12, 0.065);
+  --paper-fold-highlight: rgba(255, 255, 255, 0.42);
+}
+
+:root[data-theme='bic'] {
+  /* Tema caneta BIC azul em folha escolar (referência direta do desenho em caneta azul) */
+  --page-bg: #F2F4F8;
+  --page-surface: #F9FAFD;
+  --page-surface-inner: #E8ECF5;
+  --page-ink: #1421B8;
+  --page-ink-soft: #2E3DD1;
+  --page-accent: #E02464;
+  --page-accent-soft: rgba(224, 36, 100, 0.17);
+  --page-wash: rgba(20, 33, 184, 0.08);
+  --page-grain: rgba(20, 33, 184, 0.055);
+  --page-hatch: rgba(20, 33, 184, 0.36);
+  --page-vignette: rgba(14, 24, 120, 0.1);
+  --page-hover-tint: rgba(20, 33, 184, 0.07);
+  --page-scrim: rgba(12, 18, 72, 0.42);
 }
 
 :root[data-theme='amarelo'] {
-  --page-bg: #F8D11D;
-  --page-surface: #F9D731;
-  --page-ink: #2A1203;
-  --page-ink-soft: #512003;
-  --page-accent: #FFFFFF;
-  --page-grain: rgba(81, 32, 3, 0.05);
-  --page-hover-tint: rgba(42, 18, 3, 0.06);
-  --page-scrim: rgba(42, 18, 3, 0.28);
-  --vinyl-fill: #2A1203;
-  --vinyl-stroke: #2A1203;
-  --vinyl-groove: #F8D11D;
-  --vinyl-label: #FFF7CC;
-  --vinyl-label-ink: #512003;
-  --vinyl-hole: #F8D11D;
+  /* Papel amarelo assinatura + tinta pesada + sangramento carmesim */
+  --page-bg: #F6CF1C;
+  --page-surface: #F9DA3E;
+  --page-surface-inner: #ECC314;
+  --page-ink: #180C04;
+  --page-ink-soft: #4A2308;
+  --page-accent: #D61B48;
+  --page-accent-soft: rgba(214, 27, 72, 0.22);
+  --page-wash: rgba(24, 12, 4, 0.06);
+  --page-grain: rgba(24, 12, 4, 0.068);
+  --page-hatch: rgba(24, 12, 4, 0.38);
+  --page-vignette: rgba(81, 32, 3, 0.15);
+  --page-hover-tint: rgba(24, 12, 4, 0.06);
+  --page-scrim: rgba(24, 12, 4, 0.42);
 }
 
 :root[data-theme='creme'] {
-  --page-bg: #F3ECE0;
-  --page-surface: #F8F3EA;
-  --page-ink: #2A180D;
-  --page-ink-soft: #5C3D26;
-  --page-accent: #E8BA24;
-  --page-grain: rgba(81, 32, 3, 0.045);
-  --page-hover-tint: rgba(232, 186, 36, 0.14);
-  --page-scrim: rgba(42, 24, 13, 0.24);
-  --vinyl-fill: #2A180D;
-  --vinyl-stroke: #2A180D;
-  --vinyl-groove: #F3ECE0;
-  --vinyl-label: #E8BA24;
-  --vinyl-label-ink: #2A180D;
-  --vinyl-hole: #F8F3EA;
+  /* Papel zine envelhecido + grafite + sangue seco */
+  --page-bg: #EAE1D0;
+  --page-surface: #F2EBDD;
+  --page-surface-inner: #E2D7C3;
+  --page-ink: #181310;
+  --page-ink-soft: #4F3E33;
+  --page-accent: #C9223B;
+  --page-accent-soft: rgba(201, 34, 59, 0.18);
+  --page-wash: rgba(74, 146, 176, 0.11);
+  --page-grain: rgba(24, 19, 16, 0.06);
+  --page-hatch: rgba(24, 19, 16, 0.34);
+  --page-vignette: rgba(42, 28, 16, 0.14);
+  --page-hover-tint: rgba(201, 34, 59, 0.07);
+  --page-scrim: rgba(20, 14, 10, 0.44);
 }
 
 :root[data-theme='escuro'] {
-  --page-bg: #171412;
-  --page-surface: #1F1B18;
-  --page-ink: #F4EFE6;
-  --page-ink-soft: #C7B9A5;
-  --page-accent: #F8D11D;
-  --page-grain: rgba(244, 239, 230, 0.04);
-  --page-hover-tint: rgba(248, 209, 29, 0.1);
-  --page-scrim: rgba(0, 0, 0, 0.62);
-  --vinyl-fill: #0B0908;
-  --vinyl-stroke: #F4EFE6;
-  --vinyl-groove: #F4EFE6;
-  --vinyl-label: #F8D11D;
-  --vinyl-label-ink: #2A1203;
-  --vinyl-hole: #1F1B18;
+  /* Estética noturna expressionista (Gastón Viñas): carvão denso + giz osso + magenta ácido */
+  --page-bg: #111010;
+  --page-surface: #181616;
+  --page-surface-inner: #131111;
+  --page-ink: #F1ECE2;
+  --page-ink-soft: #BEB4A5;
+  --page-accent: #F4286A;
+  --page-accent-soft: rgba(244, 40, 106, 0.25);
+  --page-wash: rgba(114, 206, 238, 0.1);
+  --page-grain: rgba(241, 236, 226, 0.048);
+  --page-hatch: rgba(241, 236, 226, 0.3);
+  --page-vignette: rgba(0, 0, 0, 0.45);
+  --page-hover-tint: rgba(244, 40, 106, 0.1);
+  --page-scrim: rgba(0, 0, 0, 0.72);
+  --paper-texture-opacity: 0.2;
+  --paper-texture-blend: soft-light;
+  --paper-fold-shadow: rgba(0, 0, 0, 0.28);
+  --paper-fold-highlight: rgba(241, 236, 226, 0.08);
 }
 
 html,
@@ -109,22 +134,110 @@ body {
   background-size: 16px 16px;
 }
 
+/* Textura orgânica de papel de caderno + fotocópia/zine + vinheta + filtro SVG de papel amassado e dobra */
 .paper-sheet-grain {
-  background-image: radial-gradient(var(--page-grain) 0.75px, transparent 0.75px);
-  background-size: 20px 20px;
-}
-
-/* Margem externa sutil de folha/mesa estilo Neocities emoldurado */
-.neocities-outer-paper {
-  background-color: #fbfaf7;
+  position: relative;
+  isolation: isolate;
   background-image:
-    radial-gradient(rgba(81, 32, 3, 0.075) 0.85px, transparent 0.85px),
-    linear-gradient(to right, rgba(81, 32, 3, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(81, 32, 3, 0.03) 1px, transparent 1px);
-  background-size: 24px 24px, 48px 48px, 48px 48px;
+    radial-gradient(circle at 50% 46%, transparent 56%, var(--page-vignette) 100%),
+    radial-gradient(var(--page-grain) 0.9px, transparent 0.9px),
+    radial-gradient(var(--page-grain) 0.65px, transparent 0.65px);
+  background-size: 100% 100%, 19px 19px, 11px 11px;
+  background-position: 0 0, 0 0, 5px 7px;
 }
 
-/* Extrai o traço de tinta removendo o fundo da foto e dissolve suavemente as bordas inferiores e laterais */
+.paper-sheet-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: #808080;
+  filter: var(--paper-texture-filter);
+  opacity: var(--paper-texture-opacity);
+  mix-blend-mode: var(--paper-texture-blend);
+}
+
+/* Vincos sutis de dobra física de zine (dobra vertical central + marca diagonal leve) */
+.paper-sheet-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent 49.4%,
+      var(--paper-fold-shadow) 49.95%,
+      var(--paper-fold-highlight) 50.2%,
+      transparent 50.8%
+    ),
+    linear-gradient(
+      176deg,
+      transparent 48.8%,
+      var(--paper-fold-shadow) 49.6%,
+      var(--paper-fold-highlight) 50.05%,
+      transparent 50.9%
+    );
+  opacity: 0.72;
+}
+
+.paper-sheet-grain[data-paper-texture='dobra'] {
+  --paper-texture-filter: url(#zine-fold-crease);
+}
+
+.paper-sheet-grain[data-paper-texture='liso']::before,
+.paper-sheet-grain[data-paper-texture='liso']::after {
+  opacity: 0;
+}
+
+/* Textura de hachura cruzada em tinta para sombras deslocadas e fundos de moldura */
+.sketch-crosshatch {
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      var(--page-hatch) 0px,
+      var(--page-hatch) 1.3px,
+      transparent 1.3px,
+      transparent 5.5px
+    ),
+    repeating-linear-gradient(
+      -32deg,
+      var(--page-hatch) 0px,
+      var(--page-hatch) 0.8px,
+      transparent 0.8px,
+      transparent 11px
+    );
+}
+
+/* Brilho difuso de tinta/marca-texto sangrando no papel (referência direta dos desenhos) */
+.sketch-ink-bleed {
+  filter: drop-shadow(0 0 7px var(--page-accent-soft));
+}
+
+/* Efeito sutil de line-boil (animação 2D artesanal em baixo FPS) */
+@keyframes sketch-line-boil {
+  0% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(-0.6px, 0.4px, 0) rotate(-0.12deg);
+  }
+  66% {
+    transform: translate3d(0.5px, -0.5px, 0) rotate(0.11deg);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
+  }
+}
+
+.sketch-boil-hover:hover .sketch-boil-target,
+.sketch-boil-hover:focus-visible .sketch-boil-target {
+  animation: sketch-line-boil 0.42s steps(1, end) infinite;
+}
+
+/* Extrai o traço de tinta removendo o fundo da foto na tela de carregamento */
 .sketch-ink-cutout {
   filter: url(#sketch-ink-extract);
 }
@@ -166,40 +279,7 @@ body {
   mask-composite: intersect;
 }
 
-@keyframes sketch-eyelid-blink {
-  0%,
-  36% {
-    transform: scaleY(0);
-    opacity: 0;
-  }
-  37%,
-  44% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  45%,
-  100% {
-    transform: scaleY(0);
-    opacity: 0;
-  }
-}
-
-@keyframes sketch-lash-blink {
-  0%,
-  36% {
-    opacity: 0;
-  }
-  37%,
-  44% {
-    opacity: 1;
-  }
-  45%,
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Tremidinha leve de caderno/flipbook em baixo FPS no personagem */
+/* Tremidinha leve de caderno/flipbook em baixo FPS no personagem do loading */
 @keyframes sketch-stopmotion-wiggle {
   0% {
     transform: translate3d(0px, 0px, 0) rotate(0deg);
@@ -221,7 +301,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sketch-portrait-wiggle {
+  .sketch-portrait-wiggle,
+  .sketch-boil-hover:hover .sketch-boil-target,
+  .sketch-boil-hover:focus-visible .sketch-boil-target {
     animation: none;
   }
 }
