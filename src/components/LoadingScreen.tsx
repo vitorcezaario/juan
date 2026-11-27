@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
 const LOADING_IMAGE_SRC =
@@ -13,19 +13,40 @@ export function LoadingScreen({
   onComplete,
   durationMs = 2600,
 }: LoadingScreenProps) {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion() === true;
   const [progress, setProgress] = useState(0);
-  const [imageReady, setImageReady] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isBlinking, setIsBlinking] = useState(false);
+  const imageReadyRef = useRef(false);
 
   useEffect(() => {
-    // Fallback caso o evento onLoad demore ou já tenha ocorrido antes da hidratação
+    // Garante que o loading nunca trave caso o evento onLoad já tenha ocorrido
     const fallbackTimer = window.setTimeout(() => {
-      setImageReady(true);
-    }, 600);
+      imageReadyRef.current = true;
+    }, 500);
 
     return () => window.clearTimeout(fallbackTimer);
   }, []);
+
+  // Piscada confiável em qualquer navegador (inclusive Safari/iOS/WhatsApp WebView)
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    const timers: number[] = [];
+    const scheduleBlink = (startMs: number, holdMs = 175) => {
+      timers.push(window.setTimeout(() => setIsBlinking(true), startMs));
+      timers.push(
+        window.setTimeout(() => setIsBlinking(false), startMs + holdMs),
+      );
+    };
+
+    scheduleBlink(650, 175);
+    scheduleBlink(1720, 175);
+
+    return () => {
+      timers.forEach((id) => window.clearTimeout(id));
+    };
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const effectiveDuration = prefersReducedMotion ? 900 : durationMs;
@@ -36,23 +57,24 @@ export function LoadingScreen({
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const linear = Math.min(elapsed / effectiveDuration, 1);
-      const nextValue = Math.min(100, linear * 100);
 
-      // Aguarda a imagem ficar pronta antes de cravar 100%
-      if (linear >= 1 && !imageReady) {
+      if (linear >= 1 && !imageReadyRef.current) {
         setProgress(95);
         frameId = requestAnimationFrame(tick);
         return;
       }
 
-      setProgress(nextValue);
+      setProgress(Math.min(100, linear * 100));
 
       if (linear < 1) {
         frameId = requestAnimationFrame(tick);
       } else {
-        completionTimer = window.setTimeout(() => {
-          onComplete();
-        }, prefersReducedMotion ? 120 : 320);
+        completionTimer = window.setTimeout(
+          () => {
+            onComplete();
+          },
+          prefersReducedMotion ? 120 : 280,
+        );
       }
     };
 
@@ -62,7 +84,7 @@ export function LoadingScreen({
       cancelAnimationFrame(frameId);
       window.clearTimeout(completionTimer);
     };
-  }, [durationMs, imageReady, onComplete, prefersReducedMotion]);
+  }, [durationMs, onComplete, prefersReducedMotion]);
 
   return (
     <motion.div
@@ -89,7 +111,16 @@ export function LoadingScreen({
         className="loading-paper-grain pointer-events-none absolute inset-0 opacity-70"
       />
 
-      <div className="relative z-10 flex w-full max-w-[380px] flex-col items-center sm:max-w-[420px]">
+      <motion.div
+        initial={
+          prefersReducedMotion
+            ? { opacity: 1 }
+            : { opacity: 0, scale: 0.94, y: 12 }
+        }
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 flex w-full max-w-[380px] flex-col items-center sm:max-w-[420px]"
+      >
         {/* Ilustração integrada diretamente ao fundo amarelo (sem aspecto de recorte colado) */}
         <div className="relative flex w-full items-center justify-center">
           {!imageError ? (
@@ -100,16 +131,18 @@ export function LoadingScreen({
                 width={1229}
                 height={1600}
                 referrerPolicy="no-referrer"
-                onLoad={() => setImageReady(true)}
+                onLoad={() => {
+                  imageReadyRef.current = true;
+                }}
                 onError={() => {
                   setImageError(true);
-                  setImageReady(true);
+                  imageReadyRef.current = true;
                 }}
                 className="sketch-ink-cutout sketch-edge-blend block h-full w-full object-fill"
                 draggable={false}
               />
 
-              {/* Filtro de extração de tinta + animação leve de piscar nos olhos */}
+              {/* Filtro de extração de tinta + piscada sincronizada dos olhos */}
               <svg
                 viewBox="0 0 1229 1600"
                 aria-hidden="true"
@@ -131,36 +164,19 @@ export function LoadingScreen({
                       "
                     />
                   </filter>
-
-                  <filter
-                    id="eyelid-soft"
-                    x="-20%"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feGaussianBlur stdDeviation="2.2" />
-                  </filter>
                 </defs>
 
-                {/* Pálpebra do olho esquerdo no tom exato do fundo */}
-                <path
-                  d="M 450 795 Q 497 792 544 796 L 542 831 Q 496 835 452 830 Z"
-                  fill="#F8D11D"
-                  filter="url(#eyelid-soft)"
-                  className="sketch-eyelid-left"
-                />
+                {/* Pálpebras e traços dos olhos fechados exibidos na piscada */}
+                <g className={isBlinking ? 'opacity-100' : 'opacity-0'}>
+                  <path
+                    d="M 450 795 Q 497 792 544 796 L 542 831 Q 496 835 452 830 Z"
+                    fill="#F8D11D"
+                  />
+                  <path
+                    d="M 677 795 Q 710 792 744 796 L 743 831 Q 710 834 678 830 Z"
+                    fill="#F8D11D"
+                  />
 
-                {/* Pálpebra do olho direito no tom exato do fundo */}
-                <path
-                  d="M 677 795 Q 710 792 744 796 L 743 831 Q 710 834 678 830 Z"
-                  fill="#F8D11D"
-                  filter="url(#eyelid-soft)"
-                  className="sketch-eyelid-right"
-                />
-
-                {/* Traço orgânico do olho esquerdo fechado */}
-                <g className="sketch-lash-left">
                   <path
                     d="M 460 809 Q 496 818 532 808"
                     fill="none"
@@ -176,10 +192,7 @@ export function LoadingScreen({
                     strokeLinecap="round"
                     opacity="0.55"
                   />
-                </g>
 
-                {/* Traço orgânico do olho direito fechado */}
-                <g className="sketch-lash-right">
                   <path
                     d="M 681 809 Q 710 817 739 808"
                     fill="none"
@@ -204,7 +217,7 @@ export function LoadingScreen({
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

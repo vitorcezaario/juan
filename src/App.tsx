@@ -85,7 +85,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-[var(--page-bg)] text-[var(--page-ink)] transition-colors duration-200">
+    <div className="relative min-h-dvh w-full overflow-x-hidden bg-[var(--page-bg)] text-[var(--page-ink)] transition-colors duration-200">
       <AnimatePresence mode="wait">
         {isLoading && (
           <LoadingScreen
@@ -98,13 +98,13 @@ export default function App() {
       {/* Menu discreto no canto superior direito para escolher a cor do site */}
       {!isLoading && <ThemeMenu theme={theme} onChange={setTheme} />}
 
-      <div className="paper-sheet-grain group/sheet relative flex min-h-screen w-full origin-center flex-col items-center bg-[var(--page-bg)] px-6 pt-6 pb-10 transition-[transform,background-color,color] duration-300 ease-out hover:scale-[1.004] hover:rotate-[-0.18deg] motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:hover:rotate-0 sm:px-11 sm:pt-8 sm:pb-12">
-        {/* Borda sketch irregular desenhada à mão com filtro SVG de papel de caderno */}
+      <div className="paper-sheet-grain group/sheet relative flex min-h-dvh w-full flex-col items-center overflow-hidden bg-[var(--page-bg)] px-5 pt-4 pb-6 transition-colors duration-200 sm:px-10 sm:pt-5 sm:pb-7">
+        {/* Borda sketch irregular desenhada à mão contida dentro da aba */}
         <svg
           aria-hidden="true"
           viewBox="0 0 1000 1000"
           preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-2 z-0 h-[calc(100%-16px)] w-[calc(100%-16px)] overflow-visible transition-transform duration-300 ease-out group-hover/sheet:scale-[1.004] group-hover/sheet:rotate-[0.25deg] motion-reduce:transition-none motion-reduce:group-hover/sheet:scale-100 motion-reduce:group-hover/sheet:rotate-0 sm:inset-3.5 sm:h-[calc(100%-28px)] sm:w-[calc(100%-28px)]"
+          className="pointer-events-none absolute inset-2.5 z-0 h-[calc(100%-20px)] w-[calc(100%-20px)] transition-transform duration-300 ease-out group-hover/sheet:scale-[0.996] group-hover/sheet:rotate-[-0.14deg] motion-reduce:transition-none motion-reduce:group-hover/sheet:scale-100 motion-reduce:group-hover/sheet:rotate-0 sm:inset-3.5 sm:h-[calc(100%-28px)] sm:w-[calc(100%-28px)]"
         >
           <defs>
             <filter
@@ -164,7 +164,7 @@ export default function App() {
           />
         </header>
 
-        <main className="relative z-10 flex w-full max-w-[900px] flex-1 items-center justify-center pt-6 sm:pt-8">
+        <main className="relative z-10 flex w-full max-w-[900px] flex-1 items-center justify-center pt-3 sm:pt-4">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentRoute}

@@ -202,60 +202,26 @@ body {
 /* Tremidinha leve de caderno/flipbook em baixo FPS no personagem */
 @keyframes sketch-stopmotion-wiggle {
   0% {
-    transform: translate(0px, 0px) rotate(0deg);
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
   }
   33% {
-    transform: translate(-1px, -2px) rotate(-0.75deg);
+    transform: translate3d(-1.5px, -2.5px, 0) rotate(-1.1deg);
   }
   66% {
-    transform: translate(1px, -1px) rotate(0.65deg);
+    transform: translate3d(1.5px, -1px, 0) rotate(0.95deg);
   }
   100% {
-    transform: translate(0px, 0px) rotate(0deg);
+    transform: translate3d(0px, 0px, 0) rotate(0deg);
   }
 }
 
 .sketch-portrait-wiggle {
-  animation: sketch-stopmotion-wiggle 0.84s steps(1, end) infinite;
-}
-
-.sketch-eyelid-left {
-  transform-box: view-box;
-  transform-origin: 497px 795px;
-  animation: sketch-eyelid-blink 2.3s steps(1, end) 0.2s infinite;
-}
-
-.sketch-eyelid-right {
-  transform-box: view-box;
-  transform-origin: 710px 795px;
-  animation: sketch-eyelid-blink 2.3s steps(1, end) 0.2s infinite;
-}
-
-.sketch-lash-left {
-  transform-box: view-box;
-  transform-origin: 495px 812px;
-  animation: sketch-lash-blink 2.3s steps(1, end) 0.2s infinite;
-}
-
-.sketch-lash-right {
-  transform-box: view-box;
-  transform-origin: 710px 811px;
-  animation: sketch-lash-blink 2.3s steps(1, end) 0.2s infinite;
+  animation: sketch-stopmotion-wiggle 0.78s steps(1, end) infinite;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sketch-portrait-wiggle,
-  .sketch-eyelid-left,
-  .sketch-eyelid-right,
-  .sketch-lash-left,
-  .sketch-lash-right {
+  .sketch-portrait-wiggle {
     animation: none;
-  }
-
-  .sketch-eyelid-left,
-  .sketch-eyelid-right,
-  .sketch-lash-left,
-  .sketch-lash-right {
-    opacity: 0;
   }
 }

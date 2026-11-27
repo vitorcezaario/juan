@@ -100,7 +100,7 @@ export function RecomendacoesPage() {
   return (
     <section
       aria-label="Mural de LPs recomendados"
-      className="flex w-full flex-col items-center gap-6"
+      className="flex w-full flex-col items-center gap-3.5 sm:gap-4"
     >
       {/* Linha principal: seta esquerda + capa do LP com vinil saindo + seta direita */}
       <div className="flex w-full items-center justify-center gap-4 sm:gap-8">
@@ -138,7 +138,7 @@ export function RecomendacoesPage() {
                   : { opacity: 0, x: direction * -28 }
               }
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative aspect-square w-full max-w-[440px] max-h-[58vh] cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--page-ink)]"
+              className="group relative aspect-square w-full max-w-[320px] max-h-[41dvh] cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--page-ink)] sm:max-w-[360px] sm:max-h-[44dvh]"
             >
               {/* Disco de vinil real espiando pela lateral direita da capa */}
               <div
@@ -188,7 +188,7 @@ export function RecomendacoesPage() {
       <button
         type="button"
         onClick={() => setSelectedLp(activeLp)}
-        className="group/hint font-sketch inline-flex min-h-[40px] cursor-pointer items-center gap-2 px-3 py-1 text-[16px] text-[var(--page-ink-soft)] opacity-85 transition-all duration-150 hover:text-[var(--page-ink)] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--page-ink)]"
+        className="group/hint font-sketch inline-flex min-h-[34px] cursor-pointer items-center gap-2 px-3 py-0.5 text-[15px] text-[var(--page-ink-soft)] opacity-85 transition-all duration-150 hover:text-[var(--page-ink)] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--page-ink)]"
       >
         <svg
           viewBox="0 0 26 24"

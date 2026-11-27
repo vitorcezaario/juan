@@ -117,9 +117,9 @@ export function LastFmNowPlaying() {
     data.missing[0] === 'LASTFM_USERNAME';
 
   const cardInner = (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3.5">
       {/* Mini capa + vinil real espiando na lateral */}
-      <div className="relative h-14 w-14 shrink-0 mr-2">
+      <div className="relative mr-2 h-12 w-12 shrink-0">
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute top-1/2 right-0 z-0 h-[84%] w-[84%] translate-x-[28%] -translate-y-1/2 overflow-hidden rounded-full bg-[#0e0d0c] shadow-[0_4px_10px_rgba(0,0,0,0.24)] ring-1 ring-white/15 ${
@@ -225,7 +225,7 @@ export function LastFmNowPlaying() {
   return (
     <aside
       aria-label="Última música ouvida no Last.fm"
-      className="mt-2 w-full max-w-[440px]"
+      className="mt-0.5 w-full max-w-[400px]"
     >
       <SketchBox
         variant="c"
@@ -237,12 +237,12 @@ export function LastFmNowPlaying() {
             href={safeTrackUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/lfm block rounded-[4px] px-4 py-3.5 transition-colors duration-150 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
+            className="group/lfm block rounded-[4px] px-3.5 py-2.5 transition-colors duration-150 hover:bg-[var(--page-hover-tint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--page-ink)]"
           >
             {cardInner}
           </a>
         ) : (
-          <div className="px-4 py-3.5">{cardInner}</div>
+          <div className="px-3.5 py-2.5">{cardInner}</div>
         )}
       </SketchBox>
     </aside>
