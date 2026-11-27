@@ -11,12 +11,16 @@ import { FilmScratchOverlay } from './components/FilmScratchOverlay';
 import { SiteNav, type PageRoute } from './components/SiteNav';
 import { ThemeMenu, type SiteTheme } from './components/ThemeMenu';
 import { ArtesPage } from './pages/ArtesPage';
+import { FotosPage } from './pages/FotosPage';
 import { RecomendacoesPage } from './pages/RecomendacoesPage';
 
 const THEME_STORAGE_KEY = 'fr0ggyart-theme';
 
 function resolveRoute(pathname: string): PageRoute {
   const normalized = pathname.replace(/\/+$/, '') || '/';
+  if (normalized === '/fotos') {
+    return '/fotos';
+  }
   if (normalized === '/recomendacoes') {
     return '/recomendacoes';
   }
@@ -200,6 +204,8 @@ export default function App() {
             >
               {currentRoute === '/recomendacoes' ? (
                 <RecomendacoesPage />
+              ) : currentRoute === '/fotos' ? (
+                <FotosPage />
               ) : (
                 <ArtesPage />
               )}

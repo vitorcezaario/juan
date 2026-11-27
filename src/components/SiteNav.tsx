@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react';
 import { SketchDivider } from './SketchPrimitives';
 
-export type PageRoute = '/' | '/recomendacoes';
+export type PageRoute = '/' | '/fotos' | '/recomendacoes';
 
 interface SiteNavProps {
   currentRoute: PageRoute;
@@ -10,6 +10,7 @@ interface SiteNavProps {
 
 const NAV_ITEMS: { route: PageRoute; label: string }[] = [
   { route: '/', label: 'artes' },
+  { route: '/fotos', label: 'fotos' },
   { route: '/recomendacoes', label: 'recomendações' },
 ];
 
@@ -20,7 +21,7 @@ export function SiteNav({ currentRoute, onNavigate }: SiteNavProps) {
     <div className="flex w-full flex-col items-center">
       <nav
         aria-label="Páginas do site"
-        className="flex items-center justify-center gap-8 sm:gap-12"
+        className="flex items-center justify-center gap-6 sm:gap-11"
       >
         {NAV_ITEMS.map((item) => {
           const isActive = currentRoute === item.route;
@@ -103,7 +104,7 @@ export function SiteNav({ currentRoute, onNavigate }: SiteNavProps) {
       </nav>
 
       {/* Linha sutil de caneta separando o cabeçalho do palco principal */}
-      <div className="mt-1.5 w-full max-w-[300px] opacity-35">
+      <div className="mt-1.5 w-full max-w-[390px] opacity-35">
         <SketchDivider orientation="horizontal" variant="a" />
       </div>
     </div>
