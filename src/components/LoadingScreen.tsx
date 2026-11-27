@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { SketchFrogLoader } from './SketchFrogLoader';
 
 const LOADING_IMAGE_SRC =
   '/assets/aistudio/WhatsApp_Image_2026-11-27_at_09.31.24_b6d648c1.jpeg';
@@ -12,7 +11,7 @@ interface LoadingScreenProps {
 
 export function LoadingScreen({
   onComplete,
-  durationMs = 3000,
+  durationMs = 2600,
 }: LoadingScreenProps) {
   const prefersReducedMotion = useReducedMotion();
   const [progress, setProgress] = useState(0);
@@ -53,7 +52,7 @@ export function LoadingScreen({
       } else {
         completionTimer = window.setTimeout(() => {
           onComplete();
-        }, prefersReducedMotion ? 120 : 380);
+        }, prefersReducedMotion ? 120 : 320);
       }
     };
 
@@ -90,11 +89,11 @@ export function LoadingScreen({
         className="loading-paper-grain pointer-events-none absolute inset-0 opacity-70"
       />
 
-      <div className="relative z-10 flex w-full max-w-[360px] flex-col items-center sm:max-w-[400px]">
-        {/* Ilustração central com proporção travada e leve tremidinha de flipbook */}
-        <div className="relative flex w-full items-end justify-center">
+      <div className="relative z-10 flex w-full max-w-[380px] flex-col items-center sm:max-w-[420px]">
+        {/* Ilustração integrada diretamente ao fundo amarelo (sem aspecto de recorte colado) */}
+        <div className="relative flex w-full items-center justify-center">
           {!imageError ? (
-            <div className="sketch-portrait-wiggle relative aspect-[1229/1600] w-[min(76vw,340px,calc(52vh*1229/1600))]">
+            <div className="sketch-portrait-wiggle relative aspect-[1229/1600] w-[min(80vw,360px,calc(60vh*1229/1600))]">
               <img
                 src={LOADING_IMAGE_SRC}
                 alt="Ilustração do personagem"
@@ -106,17 +105,33 @@ export function LoadingScreen({
                   setImageError(true);
                   setImageReady(true);
                 }}
-                className="sketch-edge-blend block h-full w-full object-fill"
+                className="sketch-ink-cutout sketch-edge-blend block h-full w-full object-fill"
                 draggable={false}
               />
 
-              {/* Animação leve de piscar sobreposta com precisão nos olhos */}
+              {/* Filtro de extração de tinta + animação leve de piscar nos olhos */}
               <svg
                 viewBox="0 0 1229 1600"
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 h-full w-full"
               >
                 <defs>
+                  {/* Converte o papel amarelo da foto em transparência pura e mantém só o traço de tinta */}
+                  <filter
+                    id="sketch-ink-extract"
+                    colorInterpolationFilters="sRGB"
+                  >
+                    <feColorMatrix
+                      type="matrix"
+                      values="
+                        0      0      0      0  0.22
+                        0      0      0      0  0.09
+                        0      0      0      0  0.01
+                       -0.373 -1.254 -0.127  0  1.175
+                      "
+                    />
+                  </filter>
+
                   <filter
                     id="eyelid-soft"
                     x="-20%"
@@ -128,18 +143,18 @@ export function LoadingScreen({
                   </filter>
                 </defs>
 
-                {/* Pálpebra do olho esquerdo (cobre a pupila preservando a sobrancelha) */}
+                {/* Pálpebra do olho esquerdo no tom exato do fundo */}
                 <path
                   d="M 450 795 Q 497 792 544 796 L 542 831 Q 496 835 452 830 Z"
-                  fill="#F9D11D"
+                  fill="#F8D11D"
                   filter="url(#eyelid-soft)"
                   className="sketch-eyelid-left"
                 />
 
-                {/* Pálpebra do olho direito (preserva a sobrancelha e o traço do nariz) */}
+                {/* Pálpebra do olho direito no tom exato do fundo */}
                 <path
                   d="M 677 795 Q 710 792 744 796 L 743 831 Q 710 834 678 830 Z"
-                  fill="#F8D015"
+                  fill="#F8D11D"
                   filter="url(#eyelid-soft)"
                   className="sketch-eyelid-right"
                 />
@@ -149,7 +164,7 @@ export function LoadingScreen({
                   <path
                     d="M 460 809 Q 496 818 532 808"
                     fill="none"
-                    stroke="#381603"
+                    stroke="#381703"
                     strokeWidth="6.5"
                     strokeLinecap="round"
                   />
@@ -168,7 +183,7 @@ export function LoadingScreen({
                   <path
                     d="M 681 809 Q 710 817 739 808"
                     fill="none"
-                    stroke="#381603"
+                    stroke="#381703"
                     strokeWidth="6.5"
                     strokeLinecap="round"
                   />
@@ -189,9 +204,6 @@ export function LoadingScreen({
             </div>
           )}
         </div>
-
-        {/* Sapinho ilustrado saltando no lugar da barra de progresso */}
-        <SketchFrogLoader progress={progress} />
       </div>
     </motion.div>
   );

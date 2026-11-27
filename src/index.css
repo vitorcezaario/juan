@@ -27,25 +27,59 @@ body {
 
 .loading-canvas {
   background-color: var(--sketch-yellow);
-  background-image:
-    radial-gradient(circle at 65% 22%, rgba(249, 212, 28, 0.95) 0%, rgba(248, 209, 29, 0.4) 45%, transparent 75%),
-    linear-gradient(205deg, var(--sketch-yellow-light) 0%, var(--sketch-yellow) 48%, var(--sketch-yellow-warm) 100%);
+  background-image: radial-gradient(
+    circle at 50% 48%,
+    var(--sketch-yellow) 0%,
+    var(--sketch-yellow) 44%,
+    var(--sketch-yellow-mid) 78%,
+    var(--sketch-yellow-warm) 100%
+  );
 }
 
 .loading-paper-grain {
-  background-image: radial-gradient(rgba(81, 32, 3, 0.055) 0.75px, transparent 0.75px);
+  background-image: radial-gradient(rgba(81, 32, 3, 0.048) 0.75px, transparent 0.75px);
   background-size: 16px 16px;
 }
 
-/* Integra suavemente as bordas superior e laterais do desenho ao fundo amarelo */
+/* Extrai o traço de tinta removendo o fundo da foto e dissolve suavemente as bordas inferiores e laterais */
+.sketch-ink-cutout {
+  filter: url(#sketch-ink-extract);
+}
+
 .sketch-edge-blend {
   -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0%, black 11%, black 100%),
-    linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 6%,
+      black 73%,
+      rgba(0, 0, 0, 0.55) 88%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(to bottom, transparent 0%, black 11%, black 100%),
-    linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 6%,
+      black 73%,
+      rgba(0, 0, 0, 0.55) 88%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
   mask-composite: intersect;
 }
 
