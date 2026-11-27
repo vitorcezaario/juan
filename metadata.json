@@ -1,0 +1,6 @@
+{
+  "name": "Meu Site",
+  "description": "Site em branco pronto para personalização com tela de carregamento ilustrada.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

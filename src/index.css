@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  /* Paleta extraída diretamente da ilustração */
+  --sketch-yellow-light: #F9D41C;
+  --sketch-yellow: #F8D11D;
+  --sketch-yellow-mid: #F3C718;
+  --sketch-yellow-warm: #EABA12;
+  --sketch-ochre: #9B620B;
+  --sketch-ink: #2A1203;
+  --sketch-ink-soft: #512003;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: var(--sketch-ink);
+  margin: 0;
+  padding: 0;
+}
+
+.loading-canvas {
+  background-color: var(--sketch-yellow);
+  background-image:
+    radial-gradient(circle at 65% 22%, rgba(249, 212, 28, 0.95) 0%, rgba(248, 209, 29, 0.4) 45%, transparent 75%),
+    linear-gradient(205deg, var(--sketch-yellow-light) 0%, var(--sketch-yellow) 48%, var(--sketch-yellow-warm) 100%);
+}
+
+.loading-paper-grain {
+  background-image: radial-gradient(rgba(81, 32, 3, 0.055) 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
+}
+
+/* Integra suavemente as bordas superior e laterais do desenho ao fundo amarelo */
+.sketch-edge-blend {
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0%, black 11%, black 100%),
+    linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, black 11%, black 100%),
+    linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-composite: intersect;
+}
+
+@keyframes sketch-eyelid-blink {
+  0%,
+  34% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  36% {
+    opacity: 1;
+  }
+  38.5%,
+  42.5% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  45.5% {
+    opacity: 1;
+  }
+  47.5%,
+  100% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+}
+
+@keyframes sketch-lash-blink {
+  0%,
+  36.5% {
+    opacity: 0;
+    transform: translateY(-5px) scaleX(0.94);
+  }
+  39%,
+  42.5% {
+    opacity: 0.92;
+    transform: translateY(0) scaleX(1);
+  }
+  45.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(-3px) scaleX(0.96);
+  }
+}
+
+.sketch-eyelid-left {
+  transform-box: view-box;
+  transform-origin: 497px 795px;
+  animation: sketch-eyelid-blink 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.25s infinite;
+}
+
+.sketch-eyelid-right {
+  transform-box: view-box;
+  transform-origin: 710px 795px;
+  animation: sketch-eyelid-blink 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.25s infinite;
+}
+
+.sketch-lash-left {
+  transform-box: view-box;
+  transform-origin: 495px 812px;
+  animation: sketch-lash-blink 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.25s infinite;
+}
+
+.sketch-lash-right {
+  transform-box: view-box;
+  transform-origin: 710px 811px;
+  animation: sketch-lash-blink 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.25s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sketch-eyelid-left,
+  .sketch-eyelid-right,
+  .sketch-lash-left,
+  .sketch-lash-right {
+    animation: none;
+    opacity: 0;
+  }
+}
