@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
 import {defineConfig} from 'vite';
+import {losslessArtworkPlugin} from './build/losslessArtworkPlugin';
 
 export default defineConfig(() => {
   return {
@@ -27,7 +28,14 @@ export default defineConfig(() => {
           }
         },
       },
+      // Otimiza todas as artes originais sem perda de qualidade e gera WebP lossless + manifesto de dimensões
+      losslessArtworkPlugin(),
     ],
+    build: {
+      // Evita embutir imagens originais em base64 no bundle JS, mantendo arquivos originais cacheáveis
+      assetsInlineLimit: 0,
+      cssCodeSplit: true,
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

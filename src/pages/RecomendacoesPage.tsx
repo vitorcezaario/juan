@@ -8,7 +8,9 @@ import {
   type SketchVariant,
 } from '../components/SketchPrimitives';
 import { LastFmNowPlaying } from '../components/LastFmNowPlaying';
-import realVinylRecordImg from '../assets/images/real_vinyl_record_1795795623753.jpg';
+import { DrawnVinylDisc } from '../components/DrawnVinylDisc';
+import { GalleryArtworkImage } from '../components/GalleryArtworkImage';
+import { usePreloadGalleryImages } from '../lib/artworkManifest';
 
 export interface VinylSlot {
   id: string;
@@ -39,6 +41,11 @@ export function RecomendacoesPage() {
 
   const total = LP_SLOTS.length;
   const activeLp = LP_SLOTS[currentIndex];
+  const prevLp = LP_SLOTS[(currentIndex - 1 + total) % total];
+  const nextLp = LP_SLOTS[(currentIndex + 1) % total];
+
+  // Pré-carrega e pré-decodifica as capas adjacentes para navegação fluida
+  usePreloadGalleryImages([prevLp?.coverSrc, nextLp?.coverSrc]);
 
   const goPrev = useCallback(() => {
     setDirection(-1);
@@ -143,12 +150,12 @@ export function RecomendacoesPage() {
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               className="group relative aspect-square w-full max-w-[310px] max-h-[40dvh] cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--page-ink)] sm:max-w-[350px] sm:max-h-[43dvh]"
             >
-              {/* Disco de vinil real espiando pela lateral direita da capa */}
+              {/* Disco de vinil desenhado à mão espiando pela lateral direita da capa */}
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute top-1/2 right-0 z-0 h-[88%] w-[88%] translate-x-[22%] -translate-y-1/2 transition-transform duration-300 ease-out group-hover:translate-x-[31%] group-hover:rotate-[14deg] motion-reduce:transition-none motion-reduce:group-hover:rotate-0 sm:translate-x-[26%] sm:group-hover:translate-x-[36%]"
               >
-                <RealVinylDisc />
+                <DrawnVinylDisc />
               </div>
 
               {/* Capa quadrada do LP na frente com hachura e vinco de lombada */}
@@ -169,12 +176,12 @@ export function RecomendacoesPage() {
                   />
 
                   {activeLp.coverSrc ? (
-                    <img
+                    <GalleryArtworkImage
                       src={activeLp.coverSrc}
                       alt={activeLp.album ?? `Capa do disco ${currentIndex + 1}`}
-                      referrerPolicy="no-referrer"
+                      priority
+                      sizes="(max-width: 640px) 310px, 350px"
                       className="h-full w-full object-cover"
-                      draggable={false}
                     />
                   ) : (
                     /* Capa em branco pronta para receber a arte do álbum */
@@ -355,7 +362,7 @@ export function RecomendacoesPage() {
                       aria-hidden="true"
                       className="pointer-events-none absolute top-1/2 right-0 z-0 h-[86%] w-[86%] translate-x-[24%] -translate-y-1/2"
                     >
-                      <RealVinylDisc />
+                      <DrawnVinylDisc />
                     </div>
                     <div className="relative z-10 h-full w-full">
                       <SketchBox
@@ -366,12 +373,12 @@ export function RecomendacoesPage() {
                         contentClassName="flex h-full w-full items-center justify-center p-3"
                       >
                         {selectedLp.coverSrc ? (
-                          <img
+                          <GalleryArtworkImage
                             src={selectedLp.coverSrc}
                             alt={selectedLp.album ?? 'Capa do disco'}
-                            referrerPolicy="no-referrer"
+                            priority
+                            sizes="230px"
                             className="h-full w-full object-cover"
-                            draggable={false}
                           />
                         ) : (
                           <div className="h-full w-full bg-[var(--page-surface-inner)]/55" />
@@ -441,21 +448,6 @@ export function RecomendacoesPage() {
         )}
       </AnimatePresence>
     </section>
-  );
-}
-
-/** Disco de vinil LP real recortado em círculo perfeito */
-function RealVinylDisc() {
-  return (
-    <div className="relative h-full w-full overflow-hidden rounded-full bg-[#0e0d0c] shadow-[0_12px_26px_rgba(0,0,0,0.34)] ring-1 ring-white/15">
-      <img
-        src={realVinylRecordImg}
-        alt=""
-        referrerPolicy="no-referrer"
-        draggable={false}
-        className="h-full w-full scale-[1.045] object-cover select-none"
-      />
-    </div>
   );
 }
 

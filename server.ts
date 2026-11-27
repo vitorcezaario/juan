@@ -36,9 +36,37 @@ async function startServer() {
     const distDir = path.resolve(__dirname, 'dist');
     const indexHtmlPath = path.join(distDir, 'index.html');
 
-    app.use(express.static(distDir));
+    app.use(
+      '/assets',
+      express.static(path.join(distDir, 'assets'), {
+        maxAge: '1y',
+        immutable: true,
+      }),
+    );
+    app.use(
+      '/src/assets',
+      express.static(path.join(distDir, 'src', 'assets'), {
+        maxAge: '1y',
+        immutable: true,
+      }),
+    );
+    app.use(
+      express.static(distDir, {
+        setHeaders(res, filePath) {
+          if (filePath.endsWith('artwork-manifest.json')) {
+            res.setHeader(
+              'Cache-Control',
+              'public, max-age=60, stale-while-revalidate=3600',
+            );
+          } else if (filePath.endsWith('index.html')) {
+            res.setHeader('Cache-Control', 'no-cache');
+          }
+        },
+      }),
+    );
     app.get('*', (_req, res) => {
       if (fs.existsSync(indexHtmlPath)) {
+        res.setHeader('Cache-Control', 'no-cache');
         res.sendFile(indexHtmlPath);
       } else {
         res.status(404).send('Not found');

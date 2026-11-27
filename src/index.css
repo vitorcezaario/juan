@@ -162,6 +162,24 @@ body {
   filter: drop-shadow(0 0 7px var(--page-accent-soft));
 }
 
+/* Brilho sutil diagonal na faixa escura do vinil desenhado */
+.drawn-vinyl-sheen {
+  background: linear-gradient(
+    132deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.12) 42%,
+    transparent 56%,
+    rgba(255, 255, 255, 0.06) 72%,
+    transparent 86%
+  );
+  mix-blend-mode: screen;
+}
+
+/* Recorte exato do selo central no anel preto do desenho para manter o meio branco */
+.drawn-vinyl-white-label {
+  clip-path: ellipse(22.9% 22.5% at 49.33% 51%);
+}
+
 /* Efeito sutil de line-boil (animação 2D artesanal em baixo FPS) */
 @keyframes sketch-line-boil {
   0% {

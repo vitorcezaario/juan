@@ -130,6 +130,8 @@ export function LoadingScreen({
                 alt="Ilustração do personagem"
                 width={1229}
                 height={1600}
+                decoding="sync"
+                fetchPriority="high"
                 referrerPolicy="no-referrer"
                 onLoad={() => {
                   imageReadyRef.current = true;

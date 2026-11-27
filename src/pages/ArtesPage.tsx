@@ -6,6 +6,8 @@ import {
   SketchScribbleDot,
   type SketchVariant,
 } from '../components/SketchPrimitives';
+import { GalleryArtworkImage } from '../components/GalleryArtworkImage';
+import { usePreloadGalleryImages } from '../lib/artworkManifest';
 
 export interface MuralSlot {
   id: string;
@@ -30,6 +32,11 @@ export function ArtesPage() {
 
   const total = MURAL_SLOTS.length;
   const activeSlot = MURAL_SLOTS[currentIndex];
+  const prevSlot = MURAL_SLOTS[(currentIndex - 1 + total) % total];
+  const nextSlot = MURAL_SLOTS[(currentIndex + 1) % total];
+
+  // Pré-carrega e pré-decodifica as artes adjacentes para troca instantânea no mural
+  usePreloadGalleryImages([prevSlot?.imageSrc, nextSlot?.imageSrc]);
 
   const goPrev = useCallback(() => {
     setDirection(-1);
@@ -136,12 +143,12 @@ export function ArtesPage() {
                 className="flex h-full w-full items-center justify-center bg-[var(--page-surface-inner)]/55"
               >
                 {activeSlot.imageSrc ? (
-                  <img
+                  <GalleryArtworkImage
                     src={activeSlot.imageSrc}
                     alt={activeSlot.alt ?? `Arte ${currentIndex + 1}`}
-                    referrerPolicy="no-referrer"
+                    priority
+                    sizes="(max-width: 640px) 92vw, 540px"
                     className="max-h-full max-w-full object-contain"
-                    draggable={false}
                   />
                 ) : (
                   <div className="h-full w-full" />

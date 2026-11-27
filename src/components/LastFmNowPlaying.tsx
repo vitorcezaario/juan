@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SketchBox } from './SketchPrimitives';
-import realVinylRecordImg from '../assets/images/real_vinyl_record_1795795623753.jpg';
+import { DrawnVinylDisc } from './DrawnVinylDisc';
 
 interface LastFmTrack {
   title: string;
@@ -118,23 +118,17 @@ export function LastFmNowPlaying() {
 
   const cardInner = (
     <div className="flex items-center gap-3.5">
-      {/* Mini capa + vinil real espiando na lateral */}
+      {/* Mini capa + vinil desenhado espiando na lateral */}
       <div className="relative mr-2 h-12 w-12 shrink-0">
         <div
           aria-hidden="true"
-          className={`pointer-events-none absolute top-1/2 right-0 z-0 h-[84%] w-[84%] translate-x-[28%] -translate-y-1/2 overflow-hidden rounded-full bg-[#0e0d0c] shadow-[0_4px_10px_rgba(0,0,0,0.28)] ring-1 ring-white/15 ${
+          className={`pointer-events-none absolute top-1/2 right-0 z-0 h-[84%] w-[84%] translate-x-[28%] -translate-y-1/2 ${
             track?.isNowPlaying
               ? 'animate-[spin_9s_linear_infinite] motion-reduce:animate-none'
               : ''
           }`}
         >
-          <img
-            src={realVinylRecordImg}
-            alt=""
-            referrerPolicy="no-referrer"
-            draggable={false}
-            className="h-full w-full scale-[1.045] object-cover select-none"
-          />
+          <DrawnVinylDisc compact />
         </div>
 
         <div className="relative z-10 h-full w-full">
