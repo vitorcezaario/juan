@@ -85,7 +85,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full bg-[var(--page-bg)] text-[var(--page-ink)] transition-colors duration-200">
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-[var(--page-bg)] text-[var(--page-ink)] transition-colors duration-200">
       <AnimatePresence mode="wait">
         {isLoading && (
           <LoadingScreen
@@ -98,13 +98,13 @@ export default function App() {
       {/* Menu discreto no canto superior direito para escolher a cor do site */}
       {!isLoading && <ThemeMenu theme={theme} onChange={setTheme} />}
 
-      <div className="paper-sheet-grain relative flex min-h-screen w-full flex-col items-center bg-[var(--page-bg)] px-6 pt-6 pb-10 transition-colors duration-200 sm:px-11 sm:pt-8 sm:pb-12">
+      <div className="paper-sheet-grain group/sheet relative flex min-h-screen w-full origin-center flex-col items-center bg-[var(--page-bg)] px-6 pt-6 pb-10 transition-[transform,background-color,color] duration-300 ease-out hover:scale-[1.004] hover:rotate-[-0.18deg] motion-reduce:transition-colors motion-reduce:hover:scale-100 motion-reduce:hover:rotate-0 sm:px-11 sm:pt-8 sm:pb-12">
         {/* Borda sketch irregular desenhada à mão com filtro SVG de papel de caderno */}
         <svg
           aria-hidden="true"
           viewBox="0 0 1000 1000"
           preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-2 z-0 h-[calc(100%-16px)] w-[calc(100%-16px)] overflow-visible sm:inset-3.5 sm:h-[calc(100%-28px)] sm:w-[calc(100%-28px)]"
+          className="pointer-events-none absolute inset-2 z-0 h-[calc(100%-16px)] w-[calc(100%-16px)] overflow-visible transition-transform duration-300 ease-out group-hover/sheet:scale-[1.004] group-hover/sheet:rotate-[0.25deg] motion-reduce:transition-none motion-reduce:group-hover/sheet:scale-100 motion-reduce:group-hover/sheet:rotate-0 sm:inset-3.5 sm:h-[calc(100%-28px)] sm:w-[calc(100%-28px)]"
         >
           <defs>
             <filter
