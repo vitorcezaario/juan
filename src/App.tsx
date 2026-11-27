@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { RotateCcw } from 'lucide-react';
 import { LoadingScreen } from './components/LoadingScreen';
+import { FilmScratchOverlay } from './components/FilmScratchOverlay';
 import { SiteNav, type PageRoute } from './components/SiteNav';
 import { ThemeMenu, type SiteTheme } from './components/ThemeMenu';
 import { ArtesPage } from './pages/ArtesPage';
@@ -96,8 +97,9 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Ruído analógico fino estilo xerox / animação 16mm */}
+      {/* Ruído analógico fino + poeira e arranhões de película 16mm */}
       <div aria-hidden="true" className="site-noise-overlay" />
+      <FilmScratchOverlay />
 
       {/* Menu discreto no canto superior direito para escolher a cor/tinta do site */}
       {!isLoading && <ThemeMenu theme={theme} onChange={setTheme} />}
