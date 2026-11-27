@@ -98,15 +98,73 @@ export default function App() {
       {/* Menu discreto no canto superior direito para escolher a cor do site */}
       {!isLoading && <ThemeMenu theme={theme} onChange={setTheme} />}
 
-      <div className="paper-sheet-grain flex min-h-screen w-full flex-col items-center bg-[var(--page-bg)] px-5 pt-5 pb-10 transition-colors duration-200 sm:px-10 sm:pt-7 sm:pb-12">
-        <header className="w-full max-w-[900px]">
+      <div className="paper-sheet-grain relative flex min-h-screen w-full flex-col items-center bg-[var(--page-bg)] px-6 pt-6 pb-10 transition-colors duration-200 sm:px-11 sm:pt-8 sm:pb-12">
+        {/* Borda sketch irregular desenhada à mão com filtro SVG de papel de caderno */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1000 1000"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-2 z-0 h-[calc(100%-16px)] w-[calc(100%-16px)] overflow-visible sm:inset-3.5 sm:h-[calc(100%-28px)] sm:w-[calc(100%-28px)]"
+        >
+          <defs>
+            <filter
+              id="notebook-sketch-border-filter"
+              x="-2%"
+              y="-2%"
+              width="104%"
+              height="104%"
+            >
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.015 0.02"
+                numOctaves="3"
+                seed="11"
+                result="paperNoise"
+              />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="paperNoise"
+                scale="4.2"
+                xChannelSelector="R"
+                yChannelSelector="G"
+              />
+            </filter>
+          </defs>
+
+          <g filter="url(#notebook-sketch-border-filter)">
+            {/* Traço principal irregular em tinta */}
+            <path
+              d="M 8 11 C 240 5, 510 14, 770 7 C 875 5, 955 11, 991 9 C 995 250, 987 520, 993 780 C 995 890, 989 955, 991 991 C 745 996, 485 987, 230 993 C 125 995, 48 989, 9 991 C 5 745, 13 490, 7 230 C 5 125, 11 52, 8 11 Z"
+              fill="none"
+              stroke="var(--page-ink)"
+              strokeWidth="2.1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+              opacity="0.72"
+            />
+            {/* Segundo risco leve deslocado reforçando a folha desenhada à mão */}
+            <path
+              d="M 14 16 C 280 12, 540 19, 815 13 C 905 11, 962 16, 985 15 C 989 275, 982 545, 987 805 C 989 905, 983 960, 985 985 C 725 990, 465 982, 205 987 C 110 989, 44 984, 15 985 C 11 720, 18 465, 13 210 C 11 115, 16 55, 14 16 Z"
+              fill="none"
+              stroke="var(--page-ink-soft)"
+              strokeWidth="1.1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+              opacity="0.28"
+            />
+          </g>
+        </svg>
+
+        <header className="relative z-10 w-full max-w-[900px]">
           <SiteNav
             currentRoute={currentRoute}
             onNavigate={handleNavigate}
           />
         </header>
 
-        <main className="flex w-full max-w-[900px] flex-1 items-center justify-center pt-6 sm:pt-8">
+        <main className="relative z-10 flex w-full max-w-[900px] flex-1 items-center justify-center pt-6 sm:pt-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentRoute}

@@ -6,6 +6,7 @@ import {
   SketchDivider,
   type SketchVariant,
 } from '../components/SketchPrimitives';
+import { LastFmNowPlaying } from '../components/LastFmNowPlaying';
 import realVinylRecordImg from '../assets/images/real_vinyl_record_1795795623753.jpg';
 
 export interface VinylSlot {
@@ -275,6 +276,9 @@ export function RecomendacoesPage() {
           <SketchArrow direction="right" />
         </button>
       </div>
+
+      {/* Última música ouvida via Last.fm */}
+      <LastFmNowPlaying />
 
       {/* Painel de informações do artista / LP ao clicar na capa */}
       <AnimatePresence>
